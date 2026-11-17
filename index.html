@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AGARU Exam — ASEAN Education Department</title>
+<style>
+  :root {
+    --ink: #14261f;
+    --ink-soft: #3d5248;
+    --muted: #6b7a72;
+    --line: #e4e0d6;
+    --paper: #f4f1ea;
+    --paper-2: #ebe6db;
+    --card: #fffcf7;
+    --teal: #1a6b63;
+    --teal-dark: #124f49;
+    --teal-soft: #e6f3f1;
+    --gold: #b8893a;
+    --gold-soft: #f6ecd8;
+    --green: #1f8a62;
+    --green-soft: #e5f6ee;
+    --yellow: #b8860b;
+    --yellow-soft: #fbf3d5;
+    --red: #c44536;
+    --red-soft: #fdecea;
+    --blue: #2c5f8a;
+    --shadow: 0 8px 28px rgba(20, 38, 31, 0.08);
+    --shadow-sm: 0 2px 8px rgba(20, 38, 31, 0.06);
+    --radius: 14px;
+    --header-h: 64px;
+    --font: "Noto Sans CJK JP", "Noto Sans JP", "Hiragino Sans", "Yu Gothic", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: var(--font); }
+  body { min-height: 100vh; line-height: 1.5; }
+  button, input, select, textarea { font-family: inherit; }
+  button { cursor: pointer; }
+  a { color: var(--teal-dark); }
+  h1,h2,h3,h4 { margin: 0; line-height: 1.25; font-weight: 700; }
+  p { margin: 0; }
+  .app-header {
+    position: sticky; top: 0; z-index: 40;
+    height: var(--header-h);
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 0 20px; background: #14302b; color: #f6f1e7;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  }
+  .brand { display: flex; align-items: center; gap: 12px; min-width: 0; text-decoration: none; color: inherit; }
+  .logo {
+    width: 36px; height: 36px; flex: 0 0 auto; border-radius: 10px;
+    background: linear-gradient(160deg, #2a8f82, #1a6b63 55%, #c4a15a);
+    display: grid; place-items: center;
+  }
+  .brand-text { display: flex; flex-direction: column; min-width: 0; }
+  .brand-text strong { font-size: 15px; letter-spacing: 0.02em; }
+  .brand-text span { font-size: 11px; color: #c9d6d1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .header-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+  .role-switch {
+    display: flex; background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px; padding: 3px;
+  }
+  .role-switch button {
+    border: 0; background: transparent; color: #d7e2de;
+    padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 600;
+  }
+  .role-switch button.active { background: #fff; color: var(--teal-dark); }
+  .subnav { display: flex; gap: 4px; }
+  .subnav button {
+    border: 0; background: transparent; color: #c9d6d1;
+    padding: 6px 10px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  }
+  .subnav button:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .subnav button.active { background: rgba(255,255,255,0.14); color: #fff; }
+  .example-banner {
+    min-height: 36px; display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 6px 16px; background: var(--gold-soft); color: #6a4b12;
+    font-size: 12.5px; font-weight: 600; border-bottom: 1px solid #ead9b0; text-align: center;
+  }
+  .example-banner .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex: 0 0 auto; }
+  main { padding: 24px 20px 64px; max-width: 1160px; margin: 0 auto; }
+  main.narrow { max-width: 820px; }
+  main.exam-main { max-width: 880px; padding-top: 18px; }
+  .page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .page-head h1 { font-size: 26px; }
+  .page-head p.lead { color: var(--ink-soft); margin-top: 6px; font-size: 14.5px; }
+  .crumb { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .crumb button { border: 0; background: none; color: var(--teal); font-weight: 600; padding: 0; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .card-pad { padding: 20px; }
+  .card + .card { margin-top: 16px; }
+  .card h2 { font-size: 16px; margin-bottom: 14px; }
+  .muted { color: var(--muted); font-size: 13px; }
+  .hint { color: var(--ink-soft); font-size: 13px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    border-radius: 10px; border: 1px solid transparent;
+    padding: 9px 16px; font-size: 14px; font-weight: 650;
+    background: var(--teal); color: #fff;
+  }
+  .btn:hover { background: var(--teal-dark); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-secondary { background: #fff; color: var(--ink); border-color: var(--line); }
+  .btn-secondary:hover { background: var(--paper-2); }
+  .btn-ghost { background: transparent; color: var(--teal-dark); border-color: transparent; }
+  .btn-ghost:hover { background: var(--teal-soft); }
+  .btn-danger { background: var(--red); color: #fff; }
+  .btn-danger:hover { background: #a3382c; }
+  .btn-lg { padding: 12px 20px; font-size: 15px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 13px; font-weight: 650; color: var(--ink-soft); }
+  .field input[type="text"], .field input[type="number"], .field input[type="password"], .field select {
+    height: 42px; padding: 0 12px; border-radius: 10px;
+    border: 1px solid var(--line); background: #fff; color: var(--ink); font-size: 14px;
+  }
+  .field input:focus, .field select:focus { outline: 2px solid #9bcfc8; border-color: var(--teal); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .settings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .toggle {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff;
+  }
+  .toggle span { font-size: 14px; font-weight: 600; }
+  .switch { position: relative; width: 44px; height: 26px; flex: 0 0 auto; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .switch i { position: absolute; inset: 0; border-radius: 999px; background: #cfc8bb; transition: 0.2s; }
+  .switch i::before {
+    content: ""; position: absolute; width: 20px; height: 20px; border-radius: 50%;
+    background: #fff; top: 3px; left: 3px; transition: 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .switch input:checked + i { background: var(--teal); }
+  .switch input:checked + i::before { transform: translateX(18px); }
+  .dropzone {
+    border: 1.5px dashed #c8bda8;
+    background: repeating-linear-gradient(-45deg, #fbf8f2, #fbf8f2 8px, #f7f2e8 8px, #f7f2e8 16px);
+    border-radius: 14px; padding: 28px 18px; text-align: center; color: var(--ink-soft);
+  }
+  .dropzone.dragover { border-color: var(--teal); background: var(--teal-soft); }
+  .dropzone strong { color: var(--ink); display: block; margin: 6px 0 4px; }
+  .dropzone input { display: none; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 10px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 11.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); font-weight: 700; background: #f7f3eb; }
+  tbody tr:hover { background: #faf7f1; }
+  table.students tbody tr { cursor: pointer; }
+  td.nowrap, th.nowrap { white-space: nowrap; }
+  .q-cell { min-width: 220px; }
+  .choices-cell { min-width: 200px; color: var(--ink-soft); font-size: 12.5px; }
+  .choices-cell b { color: var(--green); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 18px; }
+  .stat { padding: 18px 18px 16px; }
+  .stat .label { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+  .stat .value { font-size: 28px; margin-top: 6px; letter-spacing: -0.02em; }
+  .stat .sub { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
+  .flag { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 3px 8px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .flag i { width: 8px; height: 8px; border-radius: 50%; }
+  .flag.green { background: var(--green-soft); color: #146347; } .flag.green i { background: var(--green); }
+  .flag.yellow { background: var(--yellow-soft); color: #7a5a08; } .flag.yellow i { background: var(--yellow); }
+  .flag.red { background: var(--red-soft); color: #922f25; } .flag.red i { background: var(--red); }
+  .flag.gray { background: #eeebe4; color: #5c5c5c; } .flag.gray i { background: #9a958a; }
+  .flag.blue { background: #e8f0f7; color: var(--blue); } .flag.blue i { background: var(--blue); }
+  .pill { display: inline-block; border-radius: 999px; padding: 2px 8px; font-size: 12px; font-weight: 700; background: var(--paper-2); color: var(--ink-soft); }
+  .tag { display: inline-block; background: var(--teal-soft); color: var(--teal-dark); border-radius: 6px; padding: 1px 7px; font-size: 12px; font-weight: 700; }
+  .login-wrap { max-width: 460px; margin: 12px auto 0; }
+  .login-wrap .card { padding: 28px 26px; }
+  .demo-people { display: flex; flex-direction: column; gap: 8px; margin: 14px 0 18px; }
+  .demo-person {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    width: 100%; text-align: left; border: 1px solid var(--line); background: #fff;
+    border-radius: 12px; padding: 10px 12px;
+  }
+  .demo-person:hover { border-color: var(--teal); background: var(--teal-soft); }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 12px; color: #fff; background: var(--teal); flex: 0 0 auto; }
+  .person-meta { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .person-meta b { display: block; font-size: 14px; }
+  .person-meta span { display: block; font-size: 12px; color: var(--muted); }
+  .asg-list { display: flex; flex-direction: column; gap: 12px; }
+  .asg { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px; flex-wrap: wrap; }
+  .asg h3 { font-size: 16px; }
+  .asg .meta { color: var(--ink-soft); font-size: 13px; margin-top: 4px; }
+  .exam-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .timer {
+    display: flex; align-items: center; gap: 10px; background: #14302b; color: #f6f1e7;
+    border-radius: 12px; padding: 8px 14px 8px 10px; font-variant-numeric: tabular-nums; min-width: 148px;
+  }
+  .timer .clock { width: 28px; height: 28px; border-radius: 8px; background: rgba(255,255,255,0.1); display: grid; place-items: center; }
+  .timer .time { font-size: 22px; font-weight: 800; letter-spacing: 0.04em; line-height: 1; }
+  .timer .tl { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #c9d6d1; font-weight: 700; }
+  .timer.warn { background: #7a5a08; }
+  .timer.danger { background: var(--red); animation: pulse 1s ease-in-out infinite; }
+  @keyframes pulse { 50% { filter: brightness(1.12); } }
+  .progress-track { height: 6px; background: #e0d9cc; border-radius: 99px; overflow: hidden; margin: 8px 0 14px; }
+  .progress-fill { height: 100%; background: var(--teal); width: 0; transition: width 0.2s; }
+  .nav-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .nav-grid button {
+    width: 36px; height: 36px; border-radius: 9px; border: 1px solid var(--line);
+    background: #fff; font-weight: 700; font-size: 13px; color: var(--ink);
+  }
+  .nav-grid button.answered { background: var(--teal-soft); border-color: #b7d8d3; color: var(--teal-dark); }
+  .nav-grid button.current { outline: 2px solid var(--teal); background: var(--teal); color: #fff; border-color: var(--teal); }
+  .q-card { padding: 22px; }
+  .q-kicker { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .q-text { font-size: 17.5px; font-weight: 700; margin-bottom: 16px; }
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice {
+    display: flex; align-items: flex-start; gap: 12px; width: 100%; text-align: left;
+    border: 1.5px solid var(--line); background: #fff; border-radius: 12px; padding: 12px 14px;
+  }
+  .choice:hover { border-color: var(--teal); }
+  .choice.selected { border-color: var(--teal); background: var(--teal-soft); }
+  .choice .ltr {
+    width: 26px; height: 26px; border-radius: 8px; flex: 0 0 auto;
+    display: grid; place-items: center; font-weight: 800; font-size: 12px;
+    background: #efeae0; color: var(--ink-soft);
+  }
+  .choice.selected .ltr { background: var(--teal); color: #fff; }
+  .exam-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 16px; }
+  .score-hero { display: flex; align-items: center; gap: 22px; padding: 24px; flex-wrap: wrap; }
+  .score-ring { position: relative; width: 132px; height: 132px; flex: 0 0 auto; }
+  .score-ring svg { transform: rotate(-90deg); }
+  .score-ring .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .score-ring .center b { font-size: 32px; letter-spacing: -0.03em; }
+  .score-ring .center span { font-size: 11px; color: var(--muted); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .result-q { padding: 16px 18px; }
+  .result-q + .result-q { margin-top: 10px; }
+  .result-q.ok { border-left: 4px solid var(--green); }
+  .result-q.bad { border-left: 4px solid var(--red); }
+  .result-q .ans { margin-top: 8px; font-size: 13.5px; }
+  .result-q .expl { margin-top: 8px; background: #f7f3eb; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; color: var(--ink-soft); }
+  .chart-box { padding: 8px 4px 0; }
+  canvas.chart { width: 100%; height: 220px; display: block; }
+  canvas.chart.short { height: 180px; }
+  .dash-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .warn-list { display: flex; flex-direction: column; gap: 8px; }
+  .warn-item { background: var(--red-soft); color: #7a2d25; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; }
+  .warn-item.yellow { background: var(--yellow-soft); color: #6a4b12; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .toast {
+    position: fixed; right: 18px; bottom: 18px; z-index: 80;
+    background: #14302b; color: #fff; padding: 12px 16px; border-radius: 12px;
+    box-shadow: var(--shadow); font-size: 14px; font-weight: 600;
+    transform: translateY(20px); opacity: 0; pointer-events: none; transition: 0.25s;
+    max-width: 360px;
+  }
+  .toast.show { transform: none; opacity: 1; }
+  .footnote { margin-top: 18px; color: var(--muted); font-size: 12px; }
+  @media (max-width: 860px) {
+    .stats, .grid-2, .settings-grid, .dash-grid { grid-template-columns: 1fr; }
+    main { padding: 16px 14px 80px; }
+    .app-header { padding: 8px 12px; height: auto; min-height: var(--header-h); flex-wrap: wrap; }
+    .page-head h1 { font-size: 22px; }
+    .q-text { font-size: 16px; }
+    .asg { align-items: flex-start; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+  <div id="app">
+    <header class="app-header">
+      <a class="brand" href="#/home" data-go="home">
+        <div class="logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M11 4l6.5 14h-3.1l-1.2-2.7H8.8L7.6 18H4.5L11 4z" fill="white"/>
+            <path d="M9.3 13.4h3.4L11 9.6 9.3 13.4z" fill="#1a6b63" opacity=".35"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <strong>AGARU Exam</strong>
+          <span>ASEAN Education Department</span>
+        </div>
+      </a>
+      <div class="header-actions">
+        <nav class="subnav" id="subnav" hidden></nav>
+        <div class="role-switch" role="tablist" aria-label="View switcher">
+          <button type="button" data-role="student" class="active">Student view</button>
+          <button type="button" data-role="teacher">Teacher view</button>
+        </div>
+      </div>
+    </header>
+    <div class="example-banner"><span class="dot"></span> EXAMPLE DATA — sample students, scores, and questions for demonstration only. Not live student records.</div>
+    <main id="main"></main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+<script>
+(function () {
+  "use strict";
+
+  const BANK = [
+    {
+      id: "q1", topic: "5S",
+      question: "In the 5S (5S活動) method, what does 整理 (Seiri) mean?",
+      choices: [
+        "Remove unnecessary items from the workplace",
+        "Arrange tools so they are easy to find and return",
+        "Clean the machines and floors every day",
+        "Make following the 5S rules a daily habit"
+      ],
+      answer: 0,
+      explanation: "整理 (Seiri, “Sort”) is the first S: separate what is needed from what is not, and remove unnecessary items. 整頓 is Set in order, 清掃 is Shine, 清潔 is Standardize, and 躾 is Sustain."
+    },
+    {
+      id: "q2", topic: "5S",
+      question: "Which 5S step is 整頓 (Seiton)?",
+      choices: [
+        "Cleaning the workplace until it shines",
+        "Setting items in order so anyone can find and return them quickly",
+        "Throwing away broken or unused tools",
+        "Writing a company quality policy"
+      ],
+      answer: 1,
+      explanation: "整頓 (Seiton, “Set in order”) means a place for everything and everything in its place, so items can be found and put back quickly."
+    },
+    {
+      id: "q3", topic: "QC七つ道具",
+      question: "Which of the QC七つ道具 (7 QC tools) is used to find the most important causes by showing that a few factors often account for most of the problems (the 80/20 rule)?",
+      choices: [
+        "ヒストグラム (Histogram)",
+        "パレート図 (Pareto chart)",
+        "散布図 (Scatter diagram)",
+        "管理図 (Control chart)"
+      ],
+      answer: 1,
+      explanation: "A パレート図 (Pareto chart) ranks causes by frequency or impact. It is used to focus improvement on the vital few causes that produce most of the problems."
+    },
+    {
+      id: "q4", topic: "QC七つ道具",
+      question: "The 特性要因図 (cause-and-effect diagram), also called an Ishikawa or fishbone diagram, is mainly used to:",
+      choices: [
+        "Track whether a process stays within control limits over time",
+        "Show the relationship between two numeric variables",
+        "Organize and display possible causes of a quality problem",
+        "Count how often a defect occurs on a check form"
+      ],
+      answer: 2,
+      explanation: "A 特性要因図 groups possible causes (often under methods, machines, people, materials, and environment) so a team can investigate a quality problem systematically."
+    },
+    {
+      id: "q5", topic: "PDCA",
+      question: "In the PDCA cycle (PDCAサイクル), what happens in the Check (C / 評価) step?",
+      choices: [
+        "You make a plan to improve the process",
+        "You carry out the plan on a trial basis",
+        "You compare the results with the plan and check whether the goal was met",
+        "You standardize the successful change, or start a new plan"
+      ],
+      answer: 2,
+      explanation: "PDCA is Plan (計画), Do (実行), Check (評価), and Act (処置 / 改善). Check means reviewing results against the target before deciding what to standardize or try next."
+    },
+    {
+      id: "q6", topic: "PDCA",
+      question: "After a PDCA improvement succeeds, what should you usually do in the Act (A / 処置) step?",
+      choices: [
+        "Stop measuring the process",
+        "Standardize the new method and use it as the baseline for the next improvement",
+        "Go back to the old method so workers are not confused",
+        "Skip planning and only run more trials"
+      ],
+      answer: 1,
+      explanation: "In Act, a successful change is standardized (標準化) so everyone uses the better method. That standard then becomes the starting point for the next PDCA cycle."
+    },
+    {
+      id: "q7", topic: "ジャストインタイム",
+      question: "What is the basic idea of ジャストインタイム (Just-in-Time, JIT)?",
+      choices: [
+        "Produce as many items as possible and store them as safety stock",
+        "Produce only what is needed, when it is needed, and in the amount needed",
+        "Always run machines at maximum speed to raise utilization",
+        "Inspect all products only at the end of the line"
+      ],
+      answer: 1,
+      explanation: "ジャストインタイム means making (or delivering) only what is needed, when it is needed, in the amount needed. The aim is to reduce waste such as overproduction and excess inventory."
+    },
+    {
+      id: "q8", topic: "かんばん",
+      question: "In Toyota-style production, what is a かんばん (kanban) mainly used for?",
+      choices: [
+        "A written work contract between the company and the union",
+        "A visual signal (often a card) that tells the previous process what and how many to produce or deliver",
+        "A machine that automatically stops when a defect is found",
+        "A daily meeting of all managers"
+      ],
+      answer: 1,
+      explanation: "かんばん is a visual pull signal. When a downstream process uses parts, the kanban tells the upstream process what to replenish, and in what quantity, instead of pushing production by a forecast alone."
+    },
+    {
+      id: "q9", topic: "ムダ",
+      question: "In the Toyota Production System, ムダ (muda) means:",
+      choices: [
+        "Unevenness in the workload (ムラ)",
+        "Overburden on people or machines (ムリ)",
+        "Waste — any activity that does not add value for the customer",
+        "A type of inventory tag used in receiving"
+      ],
+      answer: 2,
+      explanation: "The 3ム are ムダ (waste), ムリ (overburden), and ムラ (unevenness). ムダ is work that consumes time or resources but does not add value, such as waiting, overproduction, or extra motion."
+    },
+    {
+      id: "q10", topic: "見える化",
+      question: "What does 見える化 (mieruka, visualization) aim to do in 生産管理?",
+      choices: [
+        "Hide problems so the line can keep running without interruption",
+        "Make the state of production, quality, and problems visible so anyone can notice and act quickly",
+        "Replace all paper records with spoken reports only",
+        "Reduce the number of workers on the line automatically"
+      ],
+      answer: 1,
+      explanation: "見える化 makes abnormalities, progress, stock, and quality results easy to see (boards, andon, charts, marked locations) so problems are found early and anyone can respond."
+    },
+    {
+      id: "q11", topic: "ポカヨケ",
+      question: "ポカヨケ (poka-yoke) is a method to:",
+      choices: [
+        "Train only the most skilled workers on difficult jobs",
+        "Prevent or immediately detect human error with a simple device or design",
+        "Increase inspection staff at the end of the line",
+        "Speed up the machine cycle time"
+      ],
+      answer: 1,
+      explanation: "ポカヨケ (“mistake-proofing”) uses simple guides, sensors, shapes, or fixtures so a wrong part or missed step is hard to do — or is caught at once — instead of relying only on memory or final inspection."
+    },
+    {
+      id: "q12", topic: "標準作業",
+      question: "Why is 標準作業 (standardized work) important in 生産管理?",
+      choices: [
+        "It freezes the process so 改善 (kaizen) is no longer allowed",
+        "It gives a clear, repeatable best method that becomes the baseline for 改善 (kaizen)",
+        "It is used only for office work, not for the factory floor",
+        "It means each worker invents their own way of doing the job"
+      ],
+      answer: 1,
+      explanation: "標準作業 documents the current best way (takt, work sequence, standard in-process stock). It makes quality and safety more consistent, and it is the baseline that 改善 improves upon — not a rule that forbids change."
+    }
+  ];
+
+  const CLASS_NAME = "SSW-2 Prep Class (Example)";
+
+  function avatarColor(id) {
+    const colors = ["#1a6b63", "#2c5f8a", "#8a5a2c", "#5a6b3a", "#6b3a5a", "#3a5a6b", "#7a4e2a", "#2f6b4f"];
+    let n = 0;
+    for (let i = 0; i < id.length; i++) n += id.charCodeAt(i);
+    return colors[n % colors.length];
+  }
+  function initials(name) {
+    return name.split(" ").map(p => p[0]).join("").slice(0, 2).toUpperCase();
+  }
+
+  function defaultAssignments() {
+    return [
+      {
+        id: "asg-1",
+        title: "生産管理 基礎確認テスト",
+        course: "ビジネス・キャリア検定3級（生産管理）",
+        timeLimitSec: 15 * 60,
+        passingScore: 80,
+        shuffleQuestions: true,
+        shuffleChoices: true,
+        assignedTo: CLASS_NAME,
+        questionIds: BANK.slice(0, 10).map(q => q.id),
+        created: "2026-11-10"
+      },
+      {
+        id: "asg-2",
+        title: "製造分野特定技能2号評価試験 用語確認（機械金属加工）",
+        course: "製造分野特定技能2号評価試験",
+        timeLimitSec: 10 * 60,
+        passingScore: 70,
+        shuffleQuestions: false,
+        shuffleChoices: true,
+        assignedTo: CLASS_NAME,
+        questionIds: ["q7", "q8", "q9", "q10", "q11", "q12"],
+        created: "2026-11-14"
+      }
+    ];
+  }
+
+  function defaultStudents() {
+    return [
+      {
+        id: "miguel", name: "Miguel Ramos", nickname: "Miggy",
+        note: "Example student", field: "機械金属加工",
+        records: {
+          "asg-1": {
+            status: "completed",
+            attempts: [
+              { started: "2026-11-10T20:15:00+09:00", timeSec: 840, tabSwitches: 1, rushed: 2,
+                answers: [0,1,1,2,2,1,1,0,2,1],
+                timePerQ: [48, 52, 90, 110, 70, 95, 80, 105, 50, 40] },
+              { started: "2026-11-16T21:02:00+09:00", timeSec: 720, tabSwitches: 0, rushed: 0,
+                answers: [0,1,0,2,2,1,1,1,2,1],
+                timePerQ: [40, 44, 85, 88, 62, 70, 75, 80, 68, 48] }
+            ]
+          },
+          "asg-2": { status: "not_started", attempts: [] }
+        }
+      },
+      {
+        id: "angela", name: "Angela Bautista", nickname: "Ange",
+        note: "Example student", field: "溶接",
+        records: {
+          "asg-1": {
+            status: "completed",
+            attempts: [
+              { started: "2026-11-15T22:10:00+09:00", timeSec: 840, tabSwitches: 1, rushed: 2,
+                answers: [0,1,0,2,2,1,1,1,0,1],
+                timePerQ: [55, 60, 4, 120, 80, 95, 88, 100, 4, 70] }
+            ]
+          },
+          "asg-2": { status: "not_started", attempts: [] }
+        }
+      },
+      {
+        id: "carlo", name: "Carlo Mendoza", nickname: "Cal",
+        note: "Example student", field: "機械金属加工",
+        records: {
+          "asg-1": {
+            status: "completed",
+            attempts: [
+              { started: "2026-11-16T19:40:00+09:00", timeSec: 200, tabSwitches: 6, rushed: 8,
+                answers: [0,1,0,0,0,1,0,0,0,1],
+                timePerQ: [3, 2, 4, 3, 8, 4, 2, 3, 4, 5] }
+            ]
+          },
+          "asg-2": { status: "not_started", attempts: [] }
+        }
+      },
+      {
+        id: "liza", name: "Liza Fernandez", nickname: "Lisa",
+        note: "Example student", field: "機械金属加工",
+        records: {
+          "asg-1": {
+            status: "in_progress",
+            attempts: [],
+            current: {
+              started: "2026-11-17T18:40:00+09:00",
+              remainingSec: 7 * 60 + 12,
+              index: 5,
+              answers: [0, 1, 1, 2, 2, null, null, null, null, null],
+              timePerQ: [50, 55, 70, 80, 65, 0, 0, 0, 0, 0],
+              tabSwitches: 0, rushed: 0,
+              qOrder: [0,1,2,3,4,5,6,7,8,9],
+              choiceOrders: null
+            }
+          },
+          "asg-2": { status: "not_started", attempts: [] }
+        }
+      },
+      {
+        id: "dominic", name: "Dominic Salazar", nickname: "Dom",
+        note: "Example student", field: "機械金属加工",
+        records: { "asg-1": { status: "not_started", attempts: [] }, "asg-2": { status: "not_started", attempts: [] } }
+      },
+      {
+        id: "precious", name: "Precious Alonzo", nickname: "Pre",
+        note: "Example student", field: "溶接",
+        records: {
+          "asg-1": {
+            status: "completed",
+            attempts: [
+              { started: "2026-11-14T21:30:00+09:00", timeSec: 780, tabSwitches: 0, rushed: 1,
+                answers: [0,1,1,2,2,0,1,1,2,1],
+                timePerQ: [42, 50, 70, 95, 60, 4, 88, 92, 80, 55] }
+            ]
+          },
+          "asg-2": { status: "completed",
+            attempts: [
+              { started: "2026-11-16T20:05:00+09:00", timeSec: 480, tabSwitches: 0, rushed: 0,
+                answers: [1,1,2,1,1,1],
+                timePerQ: [50, 70, 80, 90, 95, 75] }
+            ]
+          }
+        }
+      },
+      {
+        id: "rico", name: "Rico Navarro", nickname: "Rico",
+        note: "Example student", field: "機械金属加工",
+        records: {
+          "asg-1": {
+            status: "completed",
+            attempts: [
+              { started: "2026-11-15T23:00:00+09:00", timeSec: 890, tabSwitches: 2, rushed: 1,
+                answers: [0,1,1,2,2,1,0,0,0,1],
+                timePerQ: [60, 70, 85, 90, 75, 80, 4, 120, 130, 76] }
+            ]
+          },
+          "asg-2": { status: "not_started", attempts: [] }
+        }
+      },
+      {
+        id: "jenna", name: "Jenna Pascual", nickname: "Jen",
+        note: "Example student", field: "機械金属加工",
+        records: {
+          "asg-1": {
+            status: "in_progress",
+            attempts: [],
+            current: {
+              started: "2026-11-17T18:48:00+09:00",
+              remainingSec: 11 * 60 + 5,
+              index: 2,
+              answers: [0, 3, null, null, null, null, null, null, null, null],
+              timePerQ: [80, 90, 0, 0, 0, 0, 0, 0, 0, 0],
+              tabSwitches: 3, rushed: 0,
+              qOrder: [0,1,2,3,4,5,6,7,8,9],
+              choiceOrders: null
+            }
+          },
+          "asg-2": { status: "not_started", attempts: [] }
+        }
+      }
+    ];
+  }
+
+  const state = {
+    role: "student",
+    screen: "login",
+    studentId: null,
+    selectedStudentId: null,
+    focusAssignmentId: "asg-1",
+    bank: BANK.map(cloneQ),
+    assignments: defaultAssignments(),
+    students: defaultStudents(),
+    create: {
+      timeLimitMin: 15,
+      passingScore: 80,
+      numQuestions: 10,
+      shuffleQuestions: true,
+      shuffleChoices: true,
+      assignedTo: CLASS_NAME,
+      title: "生産管理 基礎確認テスト"
+    },
+    session: null,
+    lastResults: null,
+    importNotice: null
+  };
+
+  function cloneQ(q) {
+    return { id: q.id, topic: q.topic, question: q.question, choices: q.choices.slice(), answer: q.answer, explanation: q.explanation };
+  }
+
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function escapeHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+  function fmtTime(sec) {
+    sec = Math.max(0, Math.round(sec));
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+  }
+  function fmtMin(sec) {
+    if (sec < 60) return sec + "s";
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return s ? m + "m " + s + "s" : m + " min";
+  }
+  function fmtDateTime(iso) {
+    try {
+      const d = new Date(iso);
+      return new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Asia/Tokyo", month: "short", day: "numeric",
+        hour: "numeric", minute: "2-digit", hour12: true
+      }).format(d) + " JST";
+    } catch (e) { return iso; }
+  }
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function toast(msg) {
+    const el = $("#toast");
+    el.textContent = msg;
+    el.classList.add("show");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => el.classList.remove("show"), 3200);
+  }
+  function questionsByIds(ids, bank) {
+    const map = {};
+    (bank || state.bank).forEach(q => { map[q.id] = q; });
+    return ids.map(id => map[id]).filter(Boolean);
+  }
+  function scoreAttempt(assignment, attempt) {
+    const qs = questionsByIds(assignment.questionIds);
+    let correct = 0;
+    qs.forEach((q, i) => { if (attempt.answers[i] === q.answer) correct++; });
+    const pct = qs.length ? Math.round((correct / qs.length) * 100) : 0;
+    return { correct, total: qs.length, pct, passed: pct >= assignment.passingScore };
+  }
+  function latestAttempt(rec) {
+    if (!rec || !rec.attempts || !rec.attempts.length) return null;
+    return rec.attempts[rec.attempts.length - 1];
+  }
+  function seriousness(rec, assignment) {
+    if (!rec || rec.status === "not_started") return { level: "gray", label: "Not started" };
+    if (rec.status === "in_progress") return { level: "blue", label: "In progress" };
+    const att = latestAttempt(rec);
+    if (!att) return { level: "gray", label: "No data" };
+    const sc = scoreAttempt(assignment, att);
+    if (att.rushed >= 5 || att.tabSwitches >= 5 || (att.timeSec < 240 && att.answers.length >= 8)) {
+      return { level: "red", label: "Possibly guessing" };
+    }
+    if (att.rushed >= 2 || att.tabSwitches >= 2 || (sc.pct < assignment.passingScore && att.timeSec < 360)) {
+      return { level: "yellow", label: "Needs follow-up" };
+    }
+    return { level: "green", label: "Serious effort" };
+  }
+  function flagHtml(s) {
+    return '<span class="flag ' + s.level + '"><i></i>' + escapeHtml(s.label) + "</span>";
+  }
+
+  function parseCSV(text) {
+    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+    const rows = [];
+    let row = [], field = "", i = 0, inQ = false;
+    while (i < text.length) {
+      const c = text[i];
+      if (inQ) {
+        if (c === '"') {
+          if (text[i + 1] === '"') { field += '"'; i++; }
+          else inQ = false;
+        } else field += c;
+      } else {
+        if (c === '"') inQ = true;
+        else if (c === ",") { row.push(field); field = ""; }
+        else if (c === "\n" || c === "\r") {
+          if (c === "\r" && text[i + 1] === "\n") i++;
+          row.push(field); field = "";
+          if (row.some(x => x.trim() !== "")) rows.push(row);
+          row = [];
+        } else field += c;
+      }
+      i++;
+    }
+    if (field.length || row.length) {
+      row.push(field);
+      if (row.some(x => x.trim() !== "")) rows.push(row);
+    }
+    return rows;
+  }
+  function normalizeHeader(h) {
+    return String(h || "").trim().toLowerCase().replace(/[\s-]+/g, "_");
+  }
+  function answerIndex(raw, choices) {
+    const s = String(raw || "").trim();
+    const up = s.toUpperCase();
+    if (/^[A-D]$/.test(up)) return up.charCodeAt(0) - 65;
+    if (/^[1-4]$/.test(s)) return Number(s) - 1;
+    const idx = choices.findIndex(c => c.trim().toLowerCase() === s.toLowerCase());
+    return idx;
+  }
+  function questionsFromCSV(text) {
+    const rows = parseCSV(text);
+    if (!rows.length) throw new Error("The file is empty.");
+    const headers = rows[0].map(normalizeHeader);
+    const idx = (names) => {
+      for (const n of names) {
+        const i = headers.indexOf(n);
+        if (i !== -1) return i;
+      }
+      return -1;
+    };
+    const qI = idx(["question", "q"]);
+    const aI = [idx(["choice_a", "a", "choicea", "option_a"]), idx(["choice_b", "b", "choiceb", "option_b"]),
+                idx(["choice_c", "c", "choicec", "option_c"]), idx(["choice_d", "d", "choiced", "option_d"])];
+    const ansI = idx(["answer", "correct", "correct_answer", "ans"]);
+    const expI = idx(["explanation", "explain", "rationale"]);
+    const topI = idx(["topic", "subject", "tag"]);
+    if (qI < 0 || aI.some(i => i < 0) || ansI < 0) {
+      throw new Error("CSV needs columns: question, choice_a, choice_b, choice_c, choice_d, answer, plus optional explanation and topic.");
+    }
+    const out = [];
+    rows.slice(1).forEach((r, n) => {
+      const question = (r[qI] || "").trim();
+      if (!question) return;
+      const choices = aI.map(i => (r[i] || "").trim());
+      if (choices.some(c => !c)) throw new Error("Row " + (n + 2) + " is missing a choice.");
+      const answer = answerIndex(r[ansI], choices);
+      if (answer < 0 || answer > 3) throw new Error("Row " + (n + 2) + " has an invalid answer. Use A, B, C, D, or the choice text.");
+      out.push({
+        id: "imp-" + (n + 1),
+        topic: topI >= 0 ? (r[topI] || "General").trim() : "General",
+        question, choices, answer,
+        explanation: expI >= 0 ? (r[expI] || "").trim() : ""
+      });
+    });
+    if (!out.length) throw new Error("No question rows found.");
+    return out;
+  }
+  function sampleCSV() {
+    const header = "question,choice_a,choice_b,choice_c,choice_d,answer,explanation,topic";
+    const lines = BANK.map(q => {
+      const cells = [q.question, ...q.choices, String.fromCharCode(65 + q.answer), q.explanation, q.topic];
+      return cells.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(",");
+    });
+    return header + "\n" + lines.join("\n") + "\n";
+  }
+  function downloadCSV() {
+    const blob = new Blob([sampleCSV()], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "agaru-exam-sample-questions.csv";
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast("Downloaded a sample CSV you can edit and re-upload.");
+  }
+  function handleImportFile(file) {
+    if (!file) return;
+    const name = file.name.toLowerCase();
+    if (name.endsWith(".xlsx") || name.endsWith(".xls")) {
+      state.importNotice = "Excel files (.xlsx) are not parsed in this prototype. Please save the sheet as CSV (columns: question, choice_a-d, answer, explanation, topic) and drop that file instead.";
+      render();
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const qs = questionsFromCSV(String(reader.result));
+        state.bank = qs;
+        state.create.numQuestions = Math.min(state.create.numQuestions, qs.length);
+        state.importNotice = "Imported " + qs.length + " questions from " + file.name + " (example import — questions stay in this browser session).";
+        toast("Imported " + qs.length + " questions.");
+        render();
+      } catch (err) {
+        state.importNotice = "Import failed: " + err.message;
+        render();
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  let tickTimer = null;
+  let qStartedAt = 0;
+  function stopTick() {
+    if (tickTimer) { clearInterval(tickTimer); tickTimer = null; }
+  }
+  function buildSession(student, assignment, existing) {
+    const qsMaster = questionsByIds(assignment.questionIds);
+    if (existing) {
+      return {
+        studentId: student.id, assignmentId: assignment.id, questions: qsMaster,
+        qOrder: existing.qOrder || qsMaster.map((_, i) => i),
+        choiceOrders: existing.choiceOrders,
+        answers: existing.answers.slice(),
+        timePerQ: existing.timePerQ.slice(),
+        remainingSec: existing.remainingSec,
+        index: existing.index || 0,
+        tabSwitches: existing.tabSwitches || 0,
+        rushed: existing.rushed || 0,
+        started: existing.started,
+        submitted: false
+      };
+    }
+    const qOrder = assignment.shuffleQuestions ? shuffle(qsMaster.map((_, i) => i)) : qsMaster.map((_, i) => i);
+    const choiceOrders = {};
+    qOrder.forEach(qi => {
+      const q = qsMaster[qi];
+      choiceOrders[q.id] = assignment.shuffleChoices ? shuffle([0, 1, 2, 3]) : [0, 1, 2, 3];
+    });
+    return {
+      studentId: student.id, assignmentId: assignment.id, questions: qsMaster,
+      qOrder, choiceOrders,
+      answers: qsMaster.map(() => null),
+      timePerQ: qsMaster.map(() => 0),
+      remainingSec: assignment.timeLimitSec,
+      index: 0, tabSwitches: 0, rushed: 0,
+      started: new Date().toISOString(),
+      submitted: false
+    };
+  }
+  function currentQMeta(sess) {
+    const qi = sess.qOrder[sess.index];
+    const q = sess.questions[qi];
+    const order = (sess.choiceOrders && sess.choiceOrders[q.id]) || [0, 1, 2, 3];
+    return { qi, q, order, displayIndex: sess.index };
+  }
+  function stampQuestionTime(sess) {
+    if (!qStartedAt) return;
+    const elapsed = (Date.now() - qStartedAt) / 1000;
+    const qi = sess.qOrder[sess.index];
+    sess.timePerQ[qi] = (sess.timePerQ[qi] || 0) + elapsed;
+    qStartedAt = Date.now();
+  }
+  function persistCurrent(sess) {
+    const st = state.students.find(s => s.id === sess.studentId);
+    if (!st) return;
+    const rec = st.records[sess.assignmentId] || (st.records[sess.assignmentId] = { status: "in_progress", attempts: [] });
+    rec.status = "in_progress";
+    rec.current = {
+      started: sess.started, remainingSec: sess.remainingSec, index: sess.index,
+      answers: sess.answers.slice(), timePerQ: sess.timePerQ.slice(),
+      tabSwitches: sess.tabSwitches, rushed: sess.rushed,
+      qOrder: sess.qOrder.slice(), choiceOrders: sess.choiceOrders
+    };
+  }
+  function startExam(assignmentId) {
+    const student = state.students.find(s => s.id === state.studentId);
+    const assignment = state.assignments.find(a => a.id === assignmentId);
+    if (!student || !assignment) return;
+    const rec = student.records[assignmentId];
+    const existing = rec && rec.status === "in_progress" ? rec.current : null;
+    state.session = buildSession(student, assignment, existing);
+    state.screen = "exam";
+    state.focusAssignmentId = assignmentId;
+    qStartedAt = Date.now();
+    startTick();
+    setHash();
+    render();
+  }
+  function startTick() {
+    stopTick();
+    tickTimer = setInterval(() => {
+      const sess = state.session;
+      if (!sess || sess.submitted) { stopTick(); return; }
+      sess.remainingSec -= 1;
+      if (sess.remainingSec <= 0) {
+        sess.remainingSec = 0;
+        submitExam(true);
+        return;
+      }
+      const t = $("#timer-value");
+      const box = $("#timer-box");
+      if (t) t.textContent = fmtTime(sess.remainingSec);
+      if (box) {
+        box.classList.toggle("warn", sess.remainingSec <= 120 && sess.remainingSec > 30);
+        box.classList.toggle("danger", sess.remainingSec <= 30);
+      }
+      if (sess.remainingSec % 5 === 0) persistCurrent(sess);
+    }, 1000);
+  }
+  function selectAnswer(choiceOrigIndex) {
+    const sess = state.session;
+    if (!sess || sess.submitted) return;
+    const { qi } = currentQMeta(sess);
+    const elapsed = qStartedAt ? (Date.now() - qStartedAt) / 1000 : 99;
+    if (sess.answers[qi] == null && elapsed < 5) sess.rushed += 1;
+    sess.answers[qi] = choiceOrigIndex;
+    persistCurrent(sess);
+    render();
+  }
+  function goQuestion(nextIndex) {
+    const sess = state.session;
+    if (!sess || sess.submitted) return;
+    if (nextIndex < 0 || nextIndex >= sess.qOrder.length) return;
+    stampQuestionTime(sess);
+    sess.index = nextIndex;
+    qStartedAt = Date.now();
+    persistCurrent(sess);
+    render();
+  }
+  function submitExam(auto) {
+    const sess = state.session;
+    if (!sess || sess.submitted) return;
+    stampQuestionTime(sess);
+    sess.submitted = true;
+    sess.remainingSec = Math.max(0, sess.remainingSec);
+    stopTick();
+    const assignment = state.assignments.find(a => a.id === sess.assignmentId);
+    const used = assignment.timeLimitSec - sess.remainingSec;
+    const attempt = {
+      started: sess.started,
+      timeSec: Math.max(1, Math.round(used)),
+      tabSwitches: sess.tabSwitches,
+      rushed: sess.rushed,
+      answers: sess.answers.slice(),
+      timePerQ: sess.timePerQ.map(t => Math.round(t))
+    };
+    const st = state.students.find(s => s.id === sess.studentId);
+    const rec = st.records[sess.assignmentId] || (st.records[sess.assignmentId] = { status: "completed", attempts: [] });
+    rec.attempts.push(attempt);
+    rec.status = "completed";
+    delete rec.current;
+    state.lastResults = { studentId: st.id, assignmentId: sess.assignmentId, attemptIndex: rec.attempts.length - 1, auto: !!auto };
+    state.screen = "results";
+    state.session = null;
+    if (auto) toast("Time is up — your exam was submitted automatically.");
+    setHash();
+    render();
+  }
+  function viewResults(studentId, assignmentId, attemptIndex) {
+    state.lastResults = { studentId, assignmentId, attemptIndex };
+    state.screen = "results";
+    setHash();
+    render();
+  }
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && state.session && !state.session.submitted) {
+      state.session.tabSwitches += 1;
+    }
+  });
+
+  function prepCanvas(canvas, cssH) {
+    const dpr = window.devicePixelRatio || 1;
+    const w = canvas.clientWidth || 400;
+    const h = cssH || canvas.clientHeight || 220;
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, w, h };
+  }
+  function drawBarChart(canvas, opts) {
+    const { ctx, w, h } = prepCanvas(canvas, opts.height || 220);
+    const pad = { l: opts.horizontal ? 118 : 36, r: opts.horizontal ? 16 : 16, t: 16, b: opts.horizontal ? 28 : 48 };
+    const labels = opts.labels;
+    const values = opts.values;
+    const max = Math.max(opts.max || 0, ...values, 1);
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = "#fffcf7";
+    ctx.fillRect(0, 0, w, h);
+    ctx.font = '12px "Noto Sans CJK JP", "Noto Sans JP", sans-serif';
+    if (opts.horizontal) {
+      const n = labels.length;
+      const gap = 8;
+      const barH = Math.max(10, (h - pad.t - pad.b - gap * (n - 1)) / n);
+      labels.forEach((lab, i) => {
+        const y = pad.t + i * (barH + gap);
+        const bw = (w - pad.l - pad.r) * (values[i] / max);
+        ctx.fillStyle = "#e8e2d6";
+        ctx.fillRect(pad.l, y, w - pad.l - pad.r, barH);
+        ctx.fillStyle = opts.colors ? opts.colors[i] : "#1a6b63";
+        ctx.fillRect(pad.l, y, Math.max(0, bw), barH);
+        ctx.fillStyle = "#3d5248";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+        ctx.fillText(lab, pad.l - 8, y + barH / 2);
+        ctx.textAlign = "left";
+        const tag = opts.valueLabels ? opts.valueLabels[i] : String(values[i]);
+        const trackW = w - pad.l - pad.r;
+        if (bw > trackW - 36) {
+          ctx.fillStyle = "#ffffff";
+          ctx.textAlign = "right";
+          ctx.fillText(tag, pad.l + bw - 8, y + barH / 2);
+        } else {
+          ctx.fillStyle = "#14261f";
+          ctx.textAlign = "left";
+          ctx.fillText(tag, pad.l + bw + 6, y + barH / 2);
+        }
+      });
+    } else {
+      const n = labels.length;
+      const innerW = w - pad.l - pad.r;
+      const innerH = h - pad.t - pad.b;
+      const slot = innerW / n;
+      const barW = Math.min(36, slot * 0.62);
+      ctx.strokeStyle = "#e4e0d6";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.l, pad.t);
+      ctx.lineTo(pad.l, pad.t + innerH);
+      ctx.lineTo(pad.l + innerW, pad.t + innerH);
+      ctx.stroke();
+      labels.forEach((lab, i) => {
+        const bh = innerH * (values[i] / max);
+        const x = pad.l + slot * i + (slot - barW) / 2;
+        const y = pad.t + innerH - bh;
+        ctx.fillStyle = opts.colors ? opts.colors[i] : "#1a6b63";
+        ctx.fillRect(x, y, barW, bh);
+        ctx.fillStyle = "#6b7a72";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        ctx.fillText(lab, x + barW / 2, pad.t + innerH + 8);
+        if (opts.showValues) {
+          ctx.fillStyle = "#14261f";
+          ctx.textBaseline = "bottom";
+          ctx.fillText(String(values[i]), x + barW / 2, y - 2);
+        }
+      });
+      if (opts.yLabel) {
+        ctx.fillStyle = "#6b7a72";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "top";
+        ctx.fillText(opts.yLabel, pad.l, 2);
+      }
+    }
+  }
+  function drawLineChart(canvas, opts) {
+    const { ctx, w, h } = prepCanvas(canvas, opts.height || 220);
+    const pad = { l: 36, r: 16, t: 20, b: 40 };
+    const labels = opts.labels;
+    const values = opts.values;
+    const max = Math.max(100, ...values, 1);
+    const innerW = w - pad.l - pad.r;
+    const innerH = h - pad.t - pad.b;
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = "#fffcf7";
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = "#e4e0d6";
+    ctx.beginPath();
+    ctx.moveTo(pad.l, pad.t);
+    ctx.lineTo(pad.l, pad.t + innerH);
+    ctx.lineTo(pad.l + innerW, pad.t + innerH);
+    ctx.stroke();
+    if (opts.pass != null) {
+      const y = pad.t + innerH * (1 - opts.pass / max);
+      ctx.strokeStyle = "#c44536";
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(pad.l, y);
+      ctx.lineTo(pad.l + innerW, y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#c44536";
+      ctx.font = '11px "Noto Sans CJK JP", "Noto Sans JP", sans-serif';
+      ctx.textAlign = "right";
+      ctx.fillText("Pass " + opts.pass + "%", pad.l + innerW, y - 4);
+    }
+    const pts = values.map((v, i) => {
+      const x = pad.l + (labels.length === 1 ? innerW / 2 : (innerW * i) / (labels.length - 1));
+      const y = pad.t + innerH * (1 - v / max);
+      return { x, y, v };
+    });
+    ctx.strokeStyle = "#1a6b63";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+    ctx.stroke();
+    pts.forEach((p, i) => {
+      ctx.fillStyle = "#1a6b63";
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#14261f";
+      ctx.font = '12px "Noto Sans CJK JP", "Noto Sans JP", sans-serif';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "bottom";
+      ctx.fillText(p.v + "%", p.x, p.y - 8);
+      ctx.fillStyle = "#6b7a72";
+      ctx.textBaseline = "top";
+      ctx.fillText(labels[i], p.x, pad.t + innerH + 8);
+    });
+  }
+  function paintCharts() {
+    document.querySelectorAll("canvas.chart").forEach(c => {
+      const spec = c._spec;
+      if (!spec) return;
+      if (spec.type === "bar") drawBarChart(c, spec);
+      if (spec.type === "line") drawLineChart(c, spec);
+    });
+  }
+
+  function setHash() {
+    let h = "#/" + state.role + "/" + state.screen;
+    if (state.role === "student" && state.studentId) h += "?s=" + encodeURIComponent(state.studentId);
+    if (state.screen === "exam" && state.session) h += "&a=" + encodeURIComponent(state.session.assignmentId);
+    if (state.screen === "results" && state.lastResults) {
+      h += (h.indexOf("?") >= 0 ? "&" : "?") + "a=" + encodeURIComponent(state.lastResults.assignmentId);
+    }
+    if (state.screen === "student-detail" && state.selectedStudentId) {
+      h += "?u=" + encodeURIComponent(state.selectedStudentId);
+    }
+    if (location.hash !== h) history.replaceState(null, "", h);
+  }
+  function applyHash() {
+    const raw = (location.hash || "").replace(/^#/, "") || "/";
+    const [path, qs] = raw.split("?");
+    const parts = path.split("/").filter(Boolean);
+    const params = new URLSearchParams(qs || "");
+    if (parts[0] === "teacher") {
+      state.role = "teacher";
+      state.screen = parts[1] || "dashboard";
+      if (state.screen === "student-detail") state.selectedStudentId = params.get("u") || state.selectedStudentId;
+    } else if (parts[0] === "student") {
+      state.role = "student";
+      if (params.get("s")) state.studentId = params.get("s");
+      state.screen = parts[1] || (state.studentId ? "assignments" : "login");
+      if (state.screen === "exam" && params.get("a") && state.studentId && !state.session) {
+        startExam(params.get("a"));
+        return;
+      }
+      if (state.screen === "results" && params.get("a") && state.studentId) {
+        const rec = (state.students.find(s => s.id === state.studentId) || {}).records || {};
+        const r = rec[params.get("a")];
+        if (r && r.attempts && r.attempts.length) {
+          state.lastResults = { studentId: state.studentId, assignmentId: params.get("a"), attemptIndex: r.attempts.length - 1 };
+        }
+      }
+    }
+  }
+
+  function render() {
+    const main = $("#main");
+    const sub = $("#subnav");
+    document.querySelectorAll("[data-role]").forEach(b => {
+      b.classList.toggle("active", b.getAttribute("data-role") === state.role);
+    });
+    if (state.role === "teacher") {
+      sub.hidden = false;
+      sub.innerHTML =
+        '<button type="button" data-go="create" class="' + (state.screen === "create" ? "active" : "") + '">Create exam</button>' +
+        '<button type="button" data-go="dashboard" class="' + (state.screen === "dashboard" || state.screen === "student-detail" ? "active" : "") + '">Dashboard</button>';
+    } else {
+      const logged = !!state.studentId;
+      sub.hidden = !logged;
+      sub.innerHTML = logged
+        ? '<button type="button" data-go="assignments" class="' + (state.screen === "assignments" ? "active" : "") + '">Assignments</button>' +
+          '<button type="button" data-logout="1">Log out</button>'
+        : "";
+    }
+    if (state.role === "teacher") {
+      if (state.screen === "create") { main.className = ""; main.innerHTML = renderCreate(); }
+      else if (state.screen === "student-detail") { main.className = ""; main.innerHTML = renderStudentDetail(); }
+      else if (state.screen === "results") { main.className = "narrow"; main.innerHTML = renderResults(); }
+      else { main.className = ""; main.innerHTML = renderDashboard(); }
+    } else {
+      if (state.screen === "exam") { main.className = "exam-main"; main.innerHTML = renderExam(); }
+      else if (state.screen === "results") { main.className = "narrow"; main.innerHTML = renderResults(); }
+      else if (state.screen === "assignments" && state.studentId) { main.className = "narrow"; main.innerHTML = renderAssignments(); }
+      else { state.screen = "login"; main.className = "narrow"; main.innerHTML = renderLogin(); }
+    }
+    setHash();
+    requestAnimationFrame(paintCharts);
+  }
+
+  function renderLogin() {
+    const people = state.students.map(s => {
+      const rec = s.records["asg-1"] || { status: "not_started" };
+      return '<button type="button" class="demo-person" data-login="' + s.id + '">' +
+        '<span class="person-meta"><span class="avatar" style="background:' + avatarColor(s.id) + '">' + escapeHtml(initials(s.name)) + "</span>" +
+        "<span><b>" + escapeHtml(s.name) + " (" + escapeHtml(s.nickname) + ")</b>" +
+        '<span>Example account · ' + escapeHtml(rec.status.replace("_", " ")) + "</span></span></span>" +
+        '<span class="pill">Use demo</span></button>';
+    }).join("");
+    return '<div class="login-wrap"><div class="page-head"><div>' +
+      "<h1>Student sign-in</h1>" +
+      '<p class="lead">Mock login only — no password is checked, and these are example students.</p>' +
+      "</div></div>" +
+      '<div class="card card-pad">' +
+      '<div class="muted">Sign in as an example student</div>' +
+      '<div class="demo-people">' + people + "</div>" +
+      '<form id="login-form" class="grid-2">' +
+      '<div class="field"><label for="login-name">Or type a display name</label><input id="login-name" type="text" placeholder="e.g. Guest Student" autocomplete="off" /></div>' +
+      '<div class="field"><label for="login-pass">Password (any value)</label><input id="login-pass" type="password" placeholder="Anything works" /></div>' +
+      "</form>" +
+      '<div style="margin-top:14px"><button class="btn btn-lg" type="submit" form="login-form">Enter classroom</button></div>' +
+      '<p class="footnote">This screen is a prototype. It does not create a real account or store a password.</p>' +
+      "</div></div>";
+  }
+
+  function renderAssignments() {
+    const st = state.students.find(s => s.id === state.studentId);
+    if (!st) return renderLogin();
+    const cards = state.assignments.map(a => {
+      const rec = st.records[a.id] || { status: "not_started", attempts: [] };
+      const last = latestAttempt(rec);
+      const sc = last ? scoreAttempt(a, last) : null;
+      let extra = a.questionIds.length + " questions · " + fmtMin(a.timeLimitSec) + " · Passing score " + a.passingScore + "%";
+      if (sc) extra += " · Last score " + sc.pct + "% (" + sc.correct + "/" + sc.total + ")";
+      if (rec.status === "in_progress" && rec.current) {
+        const answered = rec.current.answers.filter(x => x != null).length;
+        extra += " · " + answered + "/" + a.questionIds.length + " answered · " + fmtTime(rec.current.remainingSec) + " left";
+      }
+      let action = "";
+      if (rec.status === "completed") {
+        action = '<button class="btn btn-secondary" data-view-results="' + a.id + '">View results</button>' +
+          '<button class="btn" data-start="' + a.id + '">Retake</button>';
+      } else if (rec.status === "in_progress") {
+        action = '<button class="btn" data-start="' + a.id + '">Continue exam</button>';
+      } else {
+        action = '<button class="btn" data-start="' + a.id + '">Start exam</button>';
+      }
+      return '<div class="card asg"><div><h3>' + escapeHtml(a.title) + "</h3>" +
+        '<div class="meta">' + escapeHtml(a.course) + "<br>" + extra + "</div>" +
+        '<div style="margin-top:8px">' + flagHtml(seriousness(rec, a)) + "</div></div>" +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap">' + action + "</div></div>";
+    }).join("");
+    return '<div class="page-head"><div>' +
+      "<h1>Hello, " + escapeHtml(st.nickname) + "</h1>" +
+      '<p class="lead">Example assignments for ' + escapeHtml(st.name) + " · " + escapeHtml(CLASS_NAME) + "</p>" +
+      "</div></div>" +
+      '<div class="asg-list">' + cards + "</div>" +
+      '<p class="footnote">Answers and explanations stay hidden until you submit an exam.</p>';
+  }
+
+  function renderExam() {
+    const sess = state.session;
+    if (!sess) return '<p>No exam in progress. <button class="btn" data-go="assignments">Back to assignments</button></p>';
+    const a = state.assignments.find(x => x.id === sess.assignmentId);
+    const { qi, q, order } = currentQMeta(sess);
+    const answered = sess.answers.filter(x => x != null).length;
+    const warn = sess.remainingSec <= 120 && sess.remainingSec > 30;
+    const danger = sess.remainingSec <= 30;
+    const nav = sess.qOrder.map((qii, i) => {
+      const cls = (i === sess.index ? "current" : "") + (sess.answers[qii] != null ? " answered" : "");
+      return '<button type="button" class="' + cls + '" data-qnav="' + i + '">' + (i + 1) + "</button>";
+    }).join("");
+    const choices = order.map((orig, di) => {
+      const letter = String.fromCharCode(65 + di);
+      const sel = sess.answers[qi] === orig ? " selected" : "";
+      return '<button type="button" class="choice' + sel + '" data-choice="' + orig + '">' +
+        '<span class="ltr">' + letter + "</span><span>" + escapeHtml(q.choices[orig]) + "</span></button>";
+    }).join("");
+    const pct = Math.round((answered / sess.qOrder.length) * 100);
+    return '<div class="exam-top">' +
+      "<div><div class='muted'>" + escapeHtml(a.course) + "</div><h1 style='font-size:20px'>" + escapeHtml(a.title) + "</h1></div>" +
+      '<div class="timer' + (danger ? " danger" : warn ? " warn" : "") + '" id="timer-box">' +
+      '<div class="clock"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.2" stroke="white" stroke-width="1.6"/><path d="M8 4.5V8l2.4 1.6" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>' +
+      "<div><div class='tl'>Time left</div><div class='time' id='timer-value'>" + fmtTime(sess.remainingSec) + "</div></div></div></div>" +
+      '<div class="muted">Answered ' + answered + " of " + sess.qOrder.length + " · Explanations are revealed only after you submit</div>" +
+      '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="nav-grid">' + nav + "</div>" +
+      '<div class="card q-card">' +
+      '<div class="q-kicker"><span class="muted">Question ' + (sess.index + 1) + " of " + sess.qOrder.length + "</span>" +
+      '<span class="tag">' + escapeHtml(q.topic) + "</span></div>" +
+      '<div class="q-text">' + escapeHtml(q.question) + "</div>" +
+      '<div class="choices">' + choices + "</div>" +
+      '<div class="exam-nav">' +
+      '<button class="btn btn-secondary" data-qnav="' + (sess.index - 1) + '" ' + (sess.index === 0 ? "disabled" : "") + ">Previous</button>" +
+      (sess.index < sess.qOrder.length - 1
+        ? '<button class="btn" data-qnav="' + (sess.index + 1) + '">Next</button>'
+        : '<button class="btn" data-submit-exam="1">Review &amp; submit</button>') +
+      "</div></div>" +
+      '<div style="margin-top:14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">' +
+      '<span class="muted">You can change an answer until you submit. Leaving this tab is recorded as a tab switch (example).</span>' +
+      '<button class="btn btn-danger" data-submit-exam="1">Submit exam</button></div>';
+  }
+
+  function renderResults() {
+    const lr = state.lastResults;
+    if (!lr) return '<p>No results to show. <button class="btn" data-go="assignments">Back</button></p>';
+    const st = state.students.find(s => s.id === lr.studentId);
+    const a = state.assignments.find(x => x.id === lr.assignmentId);
+    const rec = st.records[a.id];
+    const attempt = rec.attempts[lr.attemptIndex];
+    if (!attempt) return "<p>Result not found.</p>";
+    const sc = scoreAttempt(a, attempt);
+    const qs = questionsByIds(a.questionIds);
+    const color = sc.passed ? "#1f8a62" : "#c44536";
+    const radius = 54, circ = 2 * Math.PI * radius;
+    const dash = (sc.pct / 100) * circ;
+    const items = qs.map((q, i) => {
+      const ok = attempt.answers[i] === q.answer;
+      const yours = attempt.answers[i] == null ? "No answer" : String.fromCharCode(65 + attempt.answers[i]) + " · " + q.choices[attempt.answers[i]];
+      const correct = String.fromCharCode(65 + q.answer) + " · " + q.choices[q.answer];
+      return '<div class="card result-q ' + (ok ? "ok" : "bad") + '">' +
+        '<div class="q-kicker"><b>Q' + (i + 1) + " · " + (ok ? "Correct" : "Incorrect") + "</b><span class='tag'>" + escapeHtml(q.topic) + "</span></div>" +
+        "<div style='font-weight:650;margin-top:4px'>" + escapeHtml(q.question) + "</div>" +
+        '<div class="ans">Your answer: ' + escapeHtml(yours) + (ok ? "" : "<br>Correct answer: " + escapeHtml(correct)) + "</div>" +
+        (q.explanation ? '<div class="expl"><b>Explanation.</b> ' + escapeHtml(q.explanation) + "</div>" : "") +
+        "</div>";
+    }).join("");
+    const back = state.role === "student"
+      ? '<div class="crumb"><button type="button" data-go="assignments">← Assignments</button></div>'
+      : '<div class="crumb"><button type="button" data-go="student-detail">← Student detail</button></div>';
+    return '<div class="page-head"><div>' + back +
+      "<h1>Results</h1>" +
+      '<p class="lead">' + escapeHtml(st.name) + " · " + escapeHtml(a.title) + " · " + fmtDateTime(attempt.started) +
+      (lr.auto ? " · Submitted automatically when time ran out" : "") + "</p></div></div>" +
+      '<div class="card score-hero">' +
+      '<div class="score-ring"><svg width="132" height="132" viewBox="0 0 132 132">' +
+      '<circle cx="66" cy="66" r="' + radius + '" fill="none" stroke="#e8e2d6" stroke-width="12"/>' +
+      '<circle cx="66" cy="66" r="' + radius + '" fill="none" stroke="' + color + '" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + dash + " " + circ + '"/>' +
+      '</svg><div class="center"><b style="color:' + color + '">' + sc.pct + "%</b><span>Score</span></div></div>" +
+      "<div><div style='margin-bottom:8px'>" + flagHtml(sc.passed ? { level: "green", label: "Passed" } : { level: "red", label: "Did not pass" }) + "</div>" +
+      "<div>" + sc.correct + " of " + sc.total + " correct · Passing score " + a.passingScore + "%</div>" +
+      "<div class='muted' style='margin-top:4px'>Time spent " + fmtMin(attempt.timeSec) + " of " + fmtMin(a.timeLimitSec) +
+      " · Tab switches " + attempt.tabSwitches + " · Rushed answers " + attempt.rushed + "</div>" +
+      "<p class='hint' style='margin-top:10px'>Correct answers and explanations are shown only after submit, as requested.</p>" +
+      "</div></div>" +
+      "<h2 style='font-size:16px;margin:18px 0 10px'>Question review</h2>" + items;
+  }
+
+  function renderCreate() {
+    const preview = state.bank.slice(0, 5);
+    const rows = preview.map((q, i) => {
+      const ch = q.choices.map((c, j) => (j === q.answer ? "<b>" : "") + String.fromCharCode(65 + j) + ". " + escapeHtml(c) + (j === q.answer ? "</b>" : "")).join("<br>");
+      return "<tr><td>" + (i + 1) + "</td><td><span class='tag'>" + escapeHtml(q.topic) + "</span></td>" +
+        '<td class="q-cell">' + escapeHtml(q.question) + "</td>" +
+        '<td class="choices-cell">' + ch + "</td>" +
+        "<td>" + String.fromCharCode(65 + q.answer) + "</td>" +
+        "<td>" + escapeHtml(q.explanation) + "</td></tr>";
+    }).join("");
+    const c = state.create;
+    const notice = state.importNotice ? '<p class="hint" style="margin:10px 0 0">' + escapeHtml(state.importNotice) + "</p>" : "";
+    return '<div class="page-head"><div>' +
+      "<h1>Create exam</h1>" +
+      '<p class="lead">Upload a question file or use the example 生産管理 bank, set the rules, then generate an exam for the class.</p>' +
+      "</div></div>" +
+      '<div class="card card-pad"><h2>1. Questions</h2>' +
+      '<div class="dropzone" id="dropzone">' +
+      "<strong>Drop a CSV here, or click to browse</strong>" +
+      "<div class='muted'>Columns: question, choice_a, choice_b, choice_c, choice_d, answer, explanation, topic.<br>Answer can be A–D or the choice text. Excel .xlsx is not parsed here — save as CSV.</div>" +
+      '<div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">' +
+      '<button class="btn" type="button" id="browse-csv">Choose file</button>' +
+      '<button class="btn btn-secondary" type="button" data-download-csv="1">Download sample CSV</button>' +
+      '<button class="btn btn-ghost" type="button" data-reset-bank="1">Reset to example bank</button>' +
+      "</div>" +
+      '<input id="csv-input" type="file" accept=".csv,text/csv,.txt,application/vnd.ms-excel,.xlsx" />' +
+      "</div>" + notice +
+      '<p class="hint" style="margin:16px 0 8px">Preview of the first 5 of ' + state.bank.length + " questions now in the bank (example data unless you imported a file).</p>" +
+      '<div class="table-wrap"><table><thead><tr><th>#</th><th>Topic</th><th>Question</th><th>Choices (correct in bold)</th><th>Ans</th><th>Explanation</th></tr></thead><tbody>' +
+      rows + "</tbody></table></div></div>" +
+      '<div class="card card-pad"><h2>2. Settings</h2>' +
+      '<div class="settings-grid">' +
+      '<div class="field"><label for="ex-title">Exam title</label><input id="ex-title" type="text" value="' + escapeHtml(c.title) + '" /></div>' +
+      '<div class="field"><label for="ex-n">Number of questions</label><input id="ex-n" type="number" min="1" max="' + state.bank.length + '" value="' + c.numQuestions + '" /></div>' +
+      '<div class="field"><label for="ex-time">Time limit (minutes)</label><input id="ex-time" type="number" min="1" max="180" value="' + c.timeLimitMin + '" /></div>' +
+      '<div class="field"><label for="ex-pass">Passing score (%)</label><input id="ex-pass" type="number" min="1" max="100" value="' + c.passingScore + '" /></div>' +
+      '<div class="field"><label for="ex-class">Assign to class</label><select id="ex-class"><option>' + escapeHtml(CLASS_NAME) + "</option></select></div>" +
+      "</div>" +
+      '<div class="grid-2" style="margin-top:14px">' +
+      '<label class="toggle"><span>Shuffle questions</span><span class="switch"><input id="ex-shuff-q" type="checkbox"' + (c.shuffleQuestions ? " checked" : "") + " /><i></i></span></label>" +
+      '<label class="toggle"><span>Shuffle choices</span><span class="switch"><input id="ex-shuff-c" type="checkbox"' + (c.shuffleChoices ? " checked" : "") + " /><i></i></span></label>" +
+      "</div>" +
+      '<div style="margin-top:18px"><button class="btn btn-lg" type="button" data-generate="1">Generate exam</button></div>' +
+      "</div>";
+  }
+
+  function classStats(assignmentId) {
+    const a = state.assignments.find(x => x.id === assignmentId);
+    const rows = state.students.map(s => {
+      const rec = s.records[a.id] || { status: "not_started", attempts: [] };
+      const last = latestAttempt(rec);
+      const sc = last ? scoreAttempt(a, last) : null;
+      return { s, rec, last, sc, flag: seriousness(rec, a) };
+    });
+    const done = rows.filter(r => r.rec.status === "completed");
+    const avgScore = done.length ? Math.round(done.reduce((n, r) => n + r.sc.pct, 0) / done.length) : 0;
+    const avgTime = done.length ? Math.round(done.reduce((n, r) => n + r.last.timeSec, 0) / done.length) : 0;
+    const completion = Math.round((done.length / rows.length) * 100);
+    return { a, rows, done, avgScore, avgTime, completion };
+  }
+  function topicWeakness(assignmentId) {
+    const a = state.assignments.find(x => x.id === assignmentId);
+    const qs = questionsByIds(a.questionIds);
+    const acc = {};
+    qs.forEach(q => { acc[q.topic] = { topic: q.topic, correct: 0, total: 0 }; });
+    state.students.forEach(s => {
+      const rec = s.records[a.id];
+      const last = rec && latestAttempt(rec);
+      if (!last) return;
+      qs.forEach((q, i) => {
+        acc[q.topic].total += 1;
+        if (last.answers[i] === q.answer) acc[q.topic].correct += 1;
+      });
+    });
+    return Object.values(acc).map(t => ({
+      topic: t.topic,
+      pct: t.total ? Math.round((t.correct / t.total) * 100) : 0,
+      n: t.total
+    })).sort((x, y) => x.pct - y.pct);
+  }
+  function renderDashboard() {
+    const asgId = state.focusAssignmentId || state.assignments[0].id;
+    const { a, rows, done, avgScore, avgTime, completion } = classStats(asgId);
+    const topics = topicWeakness(asgId);
+    const asgOpts = state.assignments.map(x => '<option value="' + x.id + '"' + (x.id === asgId ? " selected" : "") + ">" + escapeHtml(x.title) + "</option>").join("");
+    const table = rows.map(r => {
+      const stLabel = r.rec.status === "completed" ? "Completed" : r.rec.status === "in_progress" ? "In progress" : "Not started";
+      const score = r.sc ? r.sc.pct + "%" : "—";
+      const attempts = r.rec.attempts ? r.rec.attempts.length : 0;
+      const time = r.last ? fmtMin(r.last.timeSec) : (r.rec.current ? fmtMin((a.timeLimitSec - r.rec.current.remainingSec)) + " so far" : "—");
+      const tabs = r.last ? r.last.tabSwitches : (r.rec.current ? r.rec.current.tabSwitches : "—");
+      const rushed = r.last ? r.last.rushed : (r.rec.current ? r.rec.current.rushed : "—");
+      return '<tr data-open-student="' + r.s.id + '">' +
+        "<td><b>" + escapeHtml(r.s.name) + '</b><div class="muted">' + escapeHtml(r.s.nickname) + " · Example</div></td>" +
+        "<td class='nowrap'>" + stLabel + "</td>" +
+        "<td class='nowrap'>" + score + "</td>" +
+        "<td>" + attempts + "</td>" +
+        "<td class='nowrap'>" + time + "</td>" +
+        "<td>" + tabs + "</td>" +
+        "<td>" + rushed + "</td>" +
+        "<td>" + flagHtml(r.flag) + "</td></tr>";
+    }).join("");
+    const html = '<div class="page-head"><div>' +
+      "<h1>Class dashboard</h1>" +
+      '<p class="lead">' + escapeHtml(CLASS_NAME) + " · Example performance for whether students did the assignment seriously.</p>" +
+      "</div>" +
+      '<div class="field" style="min-width:280px"><label for="dash-asg">Assignment</label>' +
+      '<select id="dash-asg">' + asgOpts + "</select></div></div>" +
+      '<div class="stats">' +
+      '<div class="card stat"><div class="label">Completion rate</div><div class="value">' + completion + "%</div>" +
+      '<div class="sub">' + done.length + " of " + rows.length + " students finished (example)</div></div>" +
+      '<div class="card stat"><div class="label">Average score</div><div class="value">' + avgScore + "%</div>" +
+      '<div class="sub">Among completed attempts · passing score ' + a.passingScore + "%</div></div>" +
+      '<div class="card stat"><div class="label">Average time</div><div class="value">' + fmtMin(avgTime) + "</div>" +
+      '<div class="sub">Of a ' + fmtMin(a.timeLimitSec) + " limit, completed attempts only</div></div>" +
+      "</div>" +
+      '<div class="dash-grid"><div class="card card-pad"><h2>Topic weakness — whole class (example)</h2>' +
+      '<div class="chart-box"><canvas id="chart-topics" class="chart"></canvas></div>' +
+      '<div class="legend">Lower percentage = weaker topic among students who finished this assignment.</div></div>' +
+      '<div class="card card-pad"><h2>How seriousness flags work</h2>' +
+      "<p class='hint'>These rules are an example for this prototype.</p>" +
+      '<div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">' +
+      flagHtml({ level: "green", label: "Serious effort" }) + '<span class="muted">Steady time, few tab switches, few answers under 5 seconds.</span>' +
+      flagHtml({ level: "yellow", label: "Needs follow-up" }) + '<span class="muted">2+ rushed answers or tab switches, or a short attempt that did not pass.</span>' +
+      flagHtml({ level: "red", label: "Possibly guessing" }) + '<span class="muted">5+ rushed answers, 5+ tab switches, or a very short attempt (under 4 minutes).</span>' +
+      "</div></div></div>" +
+      '<div class="card card-pad"><h2>Students</h2>' +
+      '<p class="hint" style="margin-bottom:10px">Click a name for score history, time per question, and answer-pattern warnings. All rows are example data.</p>' +
+      '<div class="table-wrap"><table class="students"><thead><tr>' +
+      "<th>Student</th><th>Status</th><th>Score</th><th>Attempts</th><th>Time spent</th><th>Tab switches</th><th>Rushed answers</th><th>Seriousness</th>" +
+      "</tr></thead><tbody>" + table + "</tbody></table></div></div>";
+    requestAnimationFrame(() => {
+      const c = document.getElementById("chart-topics");
+      if (c) {
+        c._spec = {
+          type: "bar", horizontal: true, height: 220,
+          labels: topics.map(t => t.topic),
+          values: topics.map(t => t.pct),
+          max: 100,
+          valueLabels: topics.map(t => t.pct + "%"),
+          colors: topics.map(t => t.pct < 60 ? "#c44536" : t.pct < 80 ? "#b8860b" : "#1f8a62")
+        };
+        paintCharts();
+      }
+    });
+    return html;
+  }
+  function studentWeakTopics(st, a, attempt) {
+    const qs = questionsByIds(a.questionIds);
+    const acc = {};
+    qs.forEach((q, i) => {
+      if (!acc[q.topic]) acc[q.topic] = { topic: q.topic, correct: 0, total: 0 };
+      acc[q.topic].total += 1;
+      if (attempt.answers[i] === q.answer) acc[q.topic].correct += 1;
+    });
+    return Object.values(acc)
+      .map(t => ({ topic: t.topic, pct: Math.round((t.correct / t.total) * 100), miss: t.total - t.correct, total: t.total }))
+      .filter(t => t.miss > 0)
+      .sort((x, y) => x.pct - y.pct);
+  }
+  function patternWarnings(st, a, attempt) {
+    const warnings = [];
+    const sc = scoreAttempt(a, attempt);
+    if (attempt.rushed >= 5) warnings.push({ level: "red", text: attempt.rushed + " answers were locked in under 5 seconds — this often means guessing rather than reading the question." });
+    else if (attempt.rushed >= 2) warnings.push({ level: "yellow", text: attempt.rushed + " rushed answers (under 5 seconds)." });
+    if (attempt.tabSwitches >= 5) warnings.push({ level: "red", text: "Left the exam page " + attempt.tabSwitches + " times (tab switches). This can mean looking up answers." });
+    else if (attempt.tabSwitches >= 2) warnings.push({ level: "yellow", text: "Left the exam page " + attempt.tabSwitches + " times." });
+    if (attempt.timeSec < 240 && attempt.answers.length >= 8) warnings.push({ level: "red", text: "Finished in " + fmtMin(attempt.timeSec) + " — unusually fast for " + a.questionIds.length + " questions." });
+    const counts = [0, 0, 0, 0];
+    attempt.answers.forEach(ans => { if (ans != null) counts[ans] += 1; });
+    const maxC = Math.max.apply(null, counts);
+    if (maxC >= Math.ceil(attempt.answers.length * 0.7) && attempt.answers.length >= 6) {
+      const letter = String.fromCharCode(65 + counts.indexOf(maxC));
+      warnings.push({ level: "red", text: "Picked choice " + letter + " on " + maxC + " of " + attempt.answers.length + " questions — a possible same-choice pattern." });
+    }
+    if (!warnings.length && sc.passed) warnings.push({ level: "yellow", text: "No warning patterns on this attempt. Time and answer pace look consistent with serious work. (Example note.)" });
+    return warnings;
+  }
+  function renderStudentDetail() {
+    const st = state.students.find(s => s.id === state.selectedStudentId) || state.students[0];
+    const a = state.assignments.find(x => x.id === (state.focusAssignmentId || "asg-1"));
+    const rec = st.records[a.id] || { status: "not_started", attempts: [] };
+    const last = latestAttempt(rec);
+    const flag = seriousness(rec, a);
+    const history = (rec.attempts || []).map((att, i) => {
+      const sc = scoreAttempt(a, att);
+      return { label: "Try " + (i + 1), pct: sc.pct, att, i };
+    });
+    let body;
+    if (!last && rec.status !== "in_progress") {
+      body = '<div class="card card-pad"><p>This example student has not started <b>' + escapeHtml(a.title) + "</b> yet.</p></div>";
+    } else if (rec.status === "in_progress" && !last) {
+      const cur = rec.current;
+      const answered = cur.answers.filter(x => x != null).length;
+      body = '<div class="card card-pad"><p><b>' + escapeHtml(st.name) + "</b> is still taking this exam (example).</p>" +
+        "<p class='hint' style='margin-top:8px'>Answered " + answered + " of " + a.questionIds.length + " · " + fmtTime(cur.remainingSec) + " left · Tab switches " + cur.tabSwitches + ".</p></div>";
+    } else {
+      const sc = scoreAttempt(a, last);
+      const weak = studentWeakTopics(st, a, last);
+      const warns = patternWarnings(st, a, last).map(w =>
+        '<div class="warn-item' + (w.level === "yellow" ? " yellow" : "") + '">' + escapeHtml(w.text) + "</div>"
+      ).join("");
+      const qs = questionsByIds(a.questionIds);
+      const timeLabels = qs.map((_, i) => "Q" + (i + 1));
+      const timeVals = last.timePerQ.map(t => Math.round(t));
+      const timeColors = timeVals.map(t => t < 5 ? "#c44536" : t < 15 ? "#b8860b" : "#1a6b63");
+      body = '<div class="stats">' +
+        '<div class="card stat"><div class="label">Latest score</div><div class="value">' + sc.pct + "%</div>" +
+        '<div class="sub">' + sc.correct + "/" + sc.total + " · " + (sc.passed ? "Passed" : "Did not pass") + "</div></div>" +
+        '<div class="card stat"><div class="label">Time spent</div><div class="value">' + fmtMin(last.timeSec) + "</div>" +
+        '<div class="sub">Tab switches ' + last.tabSwitches + " · Rushed " + last.rushed + "</div></div>" +
+        '<div class="card stat"><div class="label">Attempts</div><div class="value">' + rec.attempts.length + "</div>" +
+        '<div class="sub">Latest ' + fmtDateTime(last.started) + "</div></div></div>" +
+        '<div class="dash-grid">' +
+        '<div class="card card-pad"><h2>Score history</h2><div class="chart-box"><canvas id="chart-history" class="chart"></canvas></div></div>' +
+        '<div class="card card-pad"><h2>Answer-pattern warnings</h2><div class="warn-list">' + warns + "</div></div>" +
+        "</div>" +
+        '<div class="dash-grid">' +
+        '<div class="card card-pad"><h2>Time per question (latest attempt)</h2>' +
+        '<div class="chart-box"><canvas id="chart-time" class="chart"></canvas></div>' +
+        '<div class="legend">Red bars are under 5 seconds (rushed). Times are example measurements.</div></div>' +
+        '<div class="card card-pad"><h2>Weak topics</h2>' +
+        (weak.length
+          ? '<div class="chart-box"><canvas id="chart-weak" class="chart short"></canvas></div>'
+          : "<p class='hint'>No missed topics on the latest attempt.</p>") +
+        "</div></div>" +
+        '<p class="footnote"><button class="btn btn-secondary" data-teacher-results="1">Open this attempt as a results page</button></p>';
+      requestAnimationFrame(() => {
+        const h = document.getElementById("chart-history");
+        if (h) h._spec = { type: "line", height: 220, labels: history.map(x => x.label), values: history.map(x => x.pct), pass: a.passingScore };
+        const t = document.getElementById("chart-time");
+        if (t) t._spec = { type: "bar", height: 220, labels: timeLabels, values: timeVals, colors: timeColors, showValues: true, yLabel: "Seconds" };
+        const w = document.getElementById("chart-weak");
+        if (w && weak.length) {
+          w._spec = {
+            type: "bar", horizontal: true, height: 180,
+            labels: weak.map(x => x.topic),
+            values: weak.map(x => 100 - x.pct),
+            valueLabels: weak.map(x => x.miss + " missed"),
+            colors: weak.map(() => "#c44536")
+          };
+        }
+        paintCharts();
+      });
+    }
+    return '<div class="crumb"><button type="button" data-go="dashboard">← Dashboard</button></div>' +
+      '<div class="page-head"><div>' +
+      "<h1>" + escapeHtml(st.name) + " <span class='muted' style='font-size:16px;font-weight:600'>(" + escapeHtml(st.nickname) + ")</span></h1>" +
+      '<p class="lead">Example student · ' + escapeHtml(st.field) + " · " + escapeHtml(a.title) + "</p>" +
+      '<div style="margin-top:8px">' + flagHtml(flag) + "</div>" +
+      "</div></div>" + body;
+  }
+
+  function readCreateForm() {
+    const title = $("#ex-title");
+    if (!title) return;
+    state.create.title = title.value.trim() || "Untitled exam";
+    state.create.numQuestions = Math.max(1, Math.min(state.bank.length, Number($("#ex-n").value) || 1));
+    state.create.timeLimitMin = Math.max(1, Number($("#ex-time").value) || 15);
+    state.create.passingScore = Math.max(1, Math.min(100, Number($("#ex-pass").value) || 80));
+    state.create.shuffleQuestions = $("#ex-shuff-q").checked;
+    state.create.shuffleChoices = $("#ex-shuff-c").checked;
+    state.create.assignedTo = $("#ex-class").value;
+  }
+  function generateExam() {
+    readCreateForm();
+    const n = state.create.numQuestions;
+    const picked = state.bank.slice(0, n);
+    const id = "asg-" + (state.assignments.length + 1);
+    const asg = {
+      id,
+      title: state.create.title,
+      course: "カスタム試験（example）",
+      timeLimitSec: state.create.timeLimitMin * 60,
+      passingScore: state.create.passingScore,
+      shuffleQuestions: state.create.shuffleQuestions,
+      shuffleChoices: state.create.shuffleChoices,
+      assignedTo: state.create.assignedTo,
+      questionIds: picked.map(q => q.id),
+      created: "2026-11-17"
+    };
+    state.assignments.unshift(asg);
+    state.students.forEach(s => {
+      if (!s.records[id]) s.records[id] = { status: "not_started", attempts: [] };
+    });
+    state.focusAssignmentId = id;
+    toast("Exam generated and assigned to " + CLASS_NAME + " (example). Students will see it in their assignment list.");
+  }
+  function loginAs(id) {
+    const st = state.students.find(s => s.id === id);
+    if (!st) return;
+    state.studentId = st.id;
+    state.screen = "assignments";
+    toast("Signed in as " + st.name + " (example account).");
+    render();
+  }
+  function loginCustom(name) {
+    const display = (name || "").trim() || "Guest Student";
+    const id = "guest";
+    let st = state.students.find(s => s.id === id);
+    if (!st) {
+      const recs = {};
+      state.assignments.forEach(a => { recs[a.id] = { status: "not_started", attempts: [] }; });
+      st = { id, name: display, nickname: display.split(" ")[0], note: "Example guest", field: "—", records: recs };
+      state.students.push(st);
+    } else {
+      st.name = display;
+      st.nickname = display.split(" ")[0];
+    }
+    loginAs(id);
+  }
+
+  document.addEventListener("click", (e) => {
+    const roleBtn = e.target.closest("[data-role]");
+    if (roleBtn) {
+      stopTick();
+      state.role = roleBtn.getAttribute("data-role");
+      if (state.role === "teacher") state.screen = state.screen === "create" ? "create" : "dashboard";
+      else state.screen = state.studentId ? (state.session ? "exam" : "assignments") : "login";
+      if (state.screen === "exam") startTick();
+      render();
+      return;
+    }
+    const go = e.target.closest("[data-go]");
+    if (go) {
+      const to = go.getAttribute("data-go");
+      if (to === "home") {
+        state.screen = state.role === "teacher" ? "dashboard" : (state.studentId ? "assignments" : "login");
+      } else {
+        state.screen = to;
+      }
+      if (state.screen !== "exam") stopTick();
+      render();
+      return;
+    }
+    if (e.target.closest("[data-logout]")) {
+      stopTick();
+      state.studentId = null;
+      state.session = null;
+      state.screen = "login";
+      render();
+      return;
+    }
+    const login = e.target.closest("[data-login]");
+    if (login) { loginAs(login.getAttribute("data-login")); return; }
+    const start = e.target.closest("[data-start]");
+    if (start) { startExam(start.getAttribute("data-start")); return; }
+    const vr = e.target.closest("[data-view-results]");
+    if (vr) {
+      const aid = vr.getAttribute("data-view-results");
+      const rec = state.students.find(s => s.id === state.studentId).records[aid];
+      viewResults(state.studentId, aid, rec.attempts.length - 1);
+      return;
+    }
+    const qnav = e.target.closest("[data-qnav]");
+    if (qnav && state.session) {
+      goQuestion(Number(qnav.getAttribute("data-qnav")));
+      return;
+    }
+    const ch = e.target.closest("[data-choice]");
+    if (ch) { selectAnswer(Number(ch.getAttribute("data-choice"))); return; }
+    if (e.target.closest("[data-submit-exam]")) {
+      const sess = state.session;
+      if (!sess) return;
+      const unanswered = sess.answers.filter(x => x == null).length;
+      const msg = unanswered
+        ? "Submit now? " + unanswered + " question(s) are still unanswered. Answers and explanations will be revealed after submit."
+        : "Submit this exam? You will not be able to change answers. Results and explanations will appear next.";
+      if (confirm(msg)) submitExam(false);
+      return;
+    }
+    if (e.target.closest("[data-download-csv]")) { downloadCSV(); return; }
+    if (e.target.closest("[data-reset-bank]")) {
+      state.bank = BANK.map(cloneQ);
+      state.create.numQuestions = Math.min(10, state.bank.length);
+      state.importNotice = "Restored the example 生産管理 question bank (" + state.bank.length + " questions).";
+      render();
+      return;
+    }
+    if (e.target.closest("[data-generate]")) { generateExam(); return; }
+    if (e.target.closest("#browse-csv")) {
+      const input = $("#csv-input");
+      if (input) input.click();
+      return;
+    }
+    if (e.target.closest("#dropzone") && !e.target.closest("button") && e.target.id !== "csv-input") {
+      const input = $("#csv-input");
+      if (input) input.click();
+      return;
+    }
+    const row = e.target.closest("[data-open-student]");
+    if (row) {
+      state.selectedStudentId = row.getAttribute("data-open-student");
+      state.screen = "student-detail";
+      render();
+      return;
+    }
+    if (e.target.closest("[data-teacher-results]")) {
+      const st = state.students.find(s => s.id === state.selectedStudentId);
+      const rec = st.records[state.focusAssignmentId];
+      viewResults(st.id, state.focusAssignmentId, rec.attempts.length - 1);
+      return;
+    }
+  });
+
+  document.addEventListener("change", (e) => {
+    if (e.target.id === "csv-input") {
+      handleImportFile(e.target.files && e.target.files[0]);
+      e.target.value = "";
+    }
+    if (e.target.id === "dash-asg") {
+      state.focusAssignmentId = e.target.value;
+      render();
+    }
+    if (e.target.id === "ex-shuff-q" || e.target.id === "ex-shuff-c") readCreateForm();
+  });
+  document.addEventListener("input", (e) => {
+    if (["ex-title", "ex-n", "ex-time", "ex-pass"].includes(e.target.id)) readCreateForm();
+  });
+  document.addEventListener("dragover", (e) => {
+    const dz = e.target.closest("#dropzone");
+    if (!dz) return;
+    e.preventDefault();
+    dz.classList.add("dragover");
+  });
+  document.addEventListener("dragleave", (e) => {
+    const dz = e.target.closest("#dropzone");
+    if (dz) dz.classList.remove("dragover");
+  });
+  document.addEventListener("drop", (e) => {
+    const dz = e.target.closest("#dropzone");
+    if (!dz) return;
+    e.preventDefault();
+    dz.classList.remove("dragover");
+    const file = e.dataTransfer.files && e.dataTransfer.files[0];
+    handleImportFile(file);
+  });
+  document.addEventListener("submit", (e) => {
+    if (e.target.id === "login-form") {
+      e.preventDefault();
+      loginCustom($("#login-name").value);
+    }
+  });
+  window.addEventListener("resize", () => paintCharts());
+  window.addEventListener("hashchange", () => { applyHash(); render(); });
+
+  window.AGARU = {
+    state, render, startExam, submitExam, loginAs, viewResults,
+    go(role, screen, opts) {
+      opts = opts || {};
+      stopTick();
+      state.role = role;
+      if (opts.studentId) state.studentId = opts.studentId;
+      if (opts.selectedStudentId) state.selectedStudentId = opts.selectedStudentId;
+      if (opts.assignmentId) state.focusAssignmentId = opts.assignmentId;
+      if (screen === "exam") { startExam(opts.assignmentId || "asg-1"); return; }
+      if (screen === "results") {
+        const sid = opts.studentId || "miguel";
+        const aid = opts.assignmentId || "asg-1";
+        const st = state.students.find(s => s.id === sid);
+        const rec = st.records[aid];
+        viewResults(sid, aid, rec.attempts.length - 1);
+        return;
+      }
+      state.screen = screen;
+      render();
+    }
+  };
+
+  applyHash();
+  if (state.screen === "exam" && state.session) startTick();
+  render();
+})();
+</script>
+</body>
+</html>
